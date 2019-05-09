@@ -74,7 +74,7 @@
               'walker'          => new BulmaWP_Navbar_Walker
             ));
             ?>
-            <div class="field is-grouped">
+            <!-- <div class="field is-grouped">
               <a class="navbar-item">
                 <span class="icon">
                   <i class="fab fa-facebook fa-lg"></i>
@@ -100,7 +100,7 @@
                   <i class="fas fa-rss fa-lg"></i>
                 </span>
               </a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

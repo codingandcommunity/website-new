@@ -176,6 +176,7 @@ function bulmawp_register_menus() {
 add_action( 'after_setup_theme', 'bulmawp_register_menus' );
 
 
+
 /**
  * Limits the menu depth to 1 child as multi-level structures are not supported with Bulma out of the box.
  *

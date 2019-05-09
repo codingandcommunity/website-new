@@ -1,61 +1,60 @@
 <?php
 /**
+ * The template for displaying all single posts
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
+ *
  * @package WordPress
- * @subpackage Tersus
+ * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
+
+get_header();
 ?>
 
-<?php get_header(); ?>
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
 
-<section id="content">
-<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+			<?php
 
-<?php if (show_post_link_nav()): ?>
-	<nav><?php previous_post_link('%link'); delim_post_link(); next_post_link('%link') ?></nav>
-<?php endif; ?>
+			/* Start the Loop */
+			while ( have_posts() ) :
+				the_post();
 
-	<article <?php post_class() ?> id="post-<?php the_ID(); ?>">
+				get_template_part( 'template-parts/content/content', 'single' );
 
-		<p class="published" title="<?php the_time('c') ?>"><?php the_time(get_option('date_format')); ?></p>
-		<h2 class="entry-title"><?php if(the_title( '', '', false ) !='') the_title(); else echo 'Untitled';?></h2>
-		<?php the_content(); ?>
-		<?php wp_link_pages(array('before' => '<p>Pages: ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
-		<p>This item was posted by <span class="vcard author"><cite class="fn"><a class="url" href="<?php the_author_meta('user_url') ?>" title="Visit the author&#8217;s site"><?php the_author_meta('display_name'); ?></a></cite></span>.</p>
+				if ( is_singular( 'attachment' ) ) {
+					// Parent post navigation.
+					the_post_navigation(
+						array(
+							/* translators: %s: parent post link */
+							'prev_text' => sprintf( __( '<span class="meta-nav">Published in</span><span class="post-title">%s</span>', 'twentynineteen' ), '%title' ),
+						)
+					);
+				} elseif ( is_singular( 'post' ) ) {
+					// Previous/next post navigation.
+					the_post_navigation(
+						array(
+							'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next Post', 'twentynineteen' ) . '</span> ' .
+								'<span class="screen-reader-text">' . __( 'Next post:', 'twentynineteen' ) . '</span> <br/>' .
+								'<span class="post-title">%title</span>',
+							'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous Post', 'twentynineteen' ) . '</span> ' .
+								'<span class="screen-reader-text">' . __( 'Previous post:', 'twentynineteen' ) . '</span> <br/>' .
+								'<span class="post-title">%title</span>',
+						)
+					);
+				}
 
-		<?php if (has_tag()) echo '<p>Tags:</p>'; the_tags('<ul><li>','</li><li>','</li></ul>'); ?>
+				// If comments are open or we have at least one comment, load up the comment template.
+				if ( comments_open() || get_comments_number() ) {
+					comments_template();
+				}
 
-		<p>Categories:</p>
-		<ul>
-			<li><?php the_category('</li><li>') ?></li>
-		</ul>
+			endwhile; // End of the loop.
+			?>
 
-		<?php if ( comments_open() && pings_open() ) { ?>
-		<p><a href="#respond" title="Contribute to the discussion">Leave a comment</a> or <a href="<?php trackback_url(); ?>" title="Send a notification when you link to this page">send a trackback</a> from your own site.</p>
+		</main><!-- #main -->
+	</section><!-- #primary -->
 
-		<?php } elseif ( !comments_open() && pings_open() ) { ?>
-		<p>Comments are closed, but you can <a href="<?php trackback_url(); ?>" title="Send a notification when you link to this page">send a trackback</a> from your own site.</p>
-
-		<?php } elseif ( comments_open() && !pings_open() ) { ?>
-		<p><a href="#respond" title="Contribute to the discussion">Leave a comment</a>.</p>
-
-		<?php } elseif ( !comments_open() && !pings_open() ) { ?>
-		<p>Comments are closed.</p>
-
-		<?php } edit_post_link('Edit','<p>','</p>'); ?>
-
-	</article>
-
-<?php if (show_post_link_nav()): ?>
-	<nav><?php previous_post_link('%link'); delim_post_link(); next_post_link('%link') ?></nav>
-<?php endif; ?>
-
-<?php comments_template(); ?>
-
-<?php endwhile; else: ?>
-	<p>Sorry, no posts matched your criteria.</p>
-<?php endif; ?>
-
-</section>
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php
+get_footer();

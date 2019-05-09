@@ -1,59 +1,33 @@
 <?php
 /**
+ * The template for displaying 404 pages (not found)
+ *
+ * @link https://codex.wordpress.org/Creating_an_Error_404_Page
+ *
  * @package WordPress
- * @subpackage Tersus
+ * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
+
+get_header();
 ?>
 
-<?php get_header(); ?>
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
+
+			<div class="error-404 not-found">
+				<header class="page-header">
+					<h1 class="page-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'twentynineteen' ); ?></h1>
+				</header><!-- .page-header -->
+
+				<div class="page-content">
+					<p><?php _e( 'It looks like nothing was found at this location. Maybe try a search?', 'twentynineteen' ); ?></p>
+					<?php get_search_form(); ?>
+				</div><!-- .page-content -->
+			</div><!-- .error-404 -->
+
+		</main><!-- #main -->
+	</section><!-- #primary -->
 
 <?php
-
-/*
- * The category_base and tag_base values are null by default
- * and only return a value if they have been set by the user.
- *
- * cf. Settings > Permalinks > Optional
-*/
-
-	$c == get_option('category_base');
-	if ($c == '') {
-		$category_base = "/category/";
-	} else {
-		$category_base = "/" . $c . "/";
-	}
-
-	$t == get_option('tag_base');
-	if ($t == '') {
-		$tag_base = "/tag/";
-	} else {
-		$tag_base = "/" . $t . "/";
-	}
-?>
-
-	<section id="content">
-
-	<?php if ($_SERVER['REQUEST_URI'] == $category_base) { ?>
-		<h2>Available Categories</h2>
-		<ul>
-			<?php wp_list_categories('style=list&title_li='); ?>
-		</ul>
-
-	<?php } elseif ($_SERVER['REQUEST_URI'] == $tag_base) { ?>
-
-		<h2>Available Tags</h2>
-		<ul>
-			<?php wp_tag_cloud(); ?>
-		</ul>
-	
-	<?php } else { ?>
-		
-		<h2>Not found.</h2>
-		<p>Sorry, you seem to be looking for something that simply isn&#8217;t here.</p>
-
-	<?php } ?> 
-
-	</section>
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+get_footer();

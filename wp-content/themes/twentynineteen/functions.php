@@ -1,705 +1,323 @@
 <?php
 /**
+ * Twenty Nineteen functions and definitions
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ *
  * @package WordPress
- * @subpackage Tersus
+ * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
 
-
-// Define theme constants
-
-$theme_name = 'tersus';
-$theme_data = wp_get_theme($theme_name);
-
-define('THEME_URI', $theme_data->get('ThemeURI'));
-define('THEME_NAME', $theme_data->get('Name'));
-define('THEME_VERSION', trim($theme_data->get('Version')));
-define('THEME_DESCRIPTION', trim($theme_data->get('Description')));
-
-
-// Tersus theme options
-
-$theme_name_full = $theme_data->get('Name');
-$options = array (
-array( "name" => "Sidebar",
-	"desc" => "Show subpages in page list",
-	"id" => $theme_name."_page_depth",
-	"type" => "checkbox",
-	"std" => "true"),
-array( "name" => "",
-	"desc" => "Show the number of posts beside each category",
-	"id" => $theme_name."_category_count",
-	"type" => "checkbox",
-	"std" => "true"),
-array( "name" => "",
-	"desc" => "Show the number of posts beside each archive",
-	"id" => $theme_name."_archive_count",
-	"type" => "checkbox",
-	"std" => "true"),
-array( "name" => "Navigation",
-	"desc" => "Display navigation above main content",
-	"id" => $theme_name."_navigation_display",
-	"type" => "checkbox",
-	"std" => "true"),
-array( "name" => "Announcement",
-	"desc" => "Display the following text at the top of each page",
-	"id" => $theme_name."_announcement_display",
-	"type" => "checkbox",
-	"std" => ""),
-array( "name" => "",
-	"desc" => "HTML may be used to format the announcement text.",
-	"id" => $theme_name."_announcement",
-	"type" => "textarea",
-	"std" => "<p>This text will appear in the announcement area.</p>"),
-array( "name" => "Footer",
-	"desc" => "Display theme information in footer",
-	"id" => $theme_name."_theme_information",
-	"type" => "checkbox",
-	"std" => "true"),
-array( "name" => "",
-	"desc" => "Display the following text in the footer of each page",
-	"id" => $theme_name."_footer_display",
-	"type" => "checkbox",
-	"std" => "true"),
-array( "name" => "",
-	"desc" => "HTML may be used to format the footer text.",
-	"id" => $theme_name."_footer_text",
-	"type" => "textarea",
-	"std" => "<p>This text will appear in the footer.</p>"),
-);
-
-if ( ! function_exists( 'tersus_add_admin' ) ) {
-	function tersus_add_admin() {
-		global $theme_name_full, $theme_name, $options;
-		if ( isset($_GET['page']) && $_GET['page'] == basename(__FILE__) ) {
-			if ( !empty( $_REQUEST['action'] ) && 'save' == $_REQUEST['action'] ) {
-				foreach ($options as $value) {
-					update_option( $value['id'], $_REQUEST[ $value['id'] ] );
-				}
-				foreach ($options as $value) {
-					if( isset( $_REQUEST[ $value['id'] ] ) ) {
-						update_option( $value['id'], $_REQUEST[ $value['id'] ]  );
-					} else {
-						delete_option( $value['id'] );
-					}
-				}
-				header("Location: themes.php?page=functions.php&saved=true");
-				die;
-			}
-		}
-		add_theme_page($theme_name_full." Options", "".$theme_name_full." Options", 'edit_themes', basename(__FILE__), 'tersus_admin');
-	}
+/**
+ * Twenty Nineteen only works in WordPress 4.7 or later.
+ */
+if ( version_compare( $GLOBALS['wp_version'], '4.7', '<' ) ) {
+	require get_template_directory() . '/inc/back-compat.php';
+	return;
 }
 
-if ( ! function_exists( 'tersus_admin' ) ) {
-	function tersus_admin() {
-		global $theme_name_full, $theme_name, $options;
-		if ( !empty( $_REQUEST['saved'] ) && $_REQUEST['saved'] ) echo '<div id="message" class="updated fade"><p><strong>'.$theme_name_full.' options have been saved.</strong></p></div>';
+if ( ! function_exists( 'twentynineteen_setup' ) ) :
+	/**
+	 * Sets up theme defaults and registers support for various WordPress features.
+	 *
+	 * Note that this function is hooked into the after_setup_theme hook, which
+	 * runs before the init hook. The init hook is too late for some features, such
+	 * as indicating support for post thumbnails.
+	 */
+	function twentynineteen_setup() {
+		/*
+		 * Make theme available for translation.
+		 * Translations can be filed in the /languages/ directory.
+		 * If you're building a theme based on Twenty Nineteen, use a find and replace
+		 * to change 'twentynineteen' to the name of your theme in all the template files.
+		 */
+		load_theme_textdomain( 'twentynineteen', get_template_directory() . '/languages' );
 
-?>
+		// Add default posts and comments RSS feed links to head.
+		add_theme_support( 'automatic-feed-links' );
 
-<div class="wrap">
-	<div id="icon-themes" class="icon32"><br /></div>
-	<h2><?php echo $theme_name_full; ?> Options</h2>
-	<form method="post">
-	<table class="form-table">
+		/*
+		 * Let WordPress manage the document title.
+		 * By adding theme support, we declare that this theme does not use a
+		 * hard-coded <title> tag in the document head, and expect WordPress to
+		 * provide it for us.
+		 */
+		add_theme_support( 'title-tag' );
 
-	<?php
-		foreach ($options as $value) {
-			switch ( $value['type'] ) {
-		case 'text':
-	?>
+		/*
+		 * Enable support for Post Thumbnails on posts and pages.
+		 *
+		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+		 */
+		add_theme_support( 'post-thumbnails' );
+		set_post_thumbnail_size( 1568, 9999 );
 
-	<tr>
-		<th><strong><?php echo $value['name']; ?></strong></th>
-		<td><input name="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>" type="<?php echo $value['type']; ?>" value="<?php if (get_option($value['id']) != "") { echo get_option($value['id']); } else { echo $value['std']; } ?>" /> <?php echo $value['desc']; ?></td>
-	</tr>
+		// This theme uses wp_nav_menu() in two locations.
+		register_nav_menus(
+			array(
+				'menu-1' => __( 'Primary', 'twentynineteen' ),
+				'footer' => __( 'Footer Menu', 'twentynineteen' ),
+				'social' => __( 'Social Links Menu', 'twentynineteen' ),
+			)
+		);
 
-	<?php
-		break;
-		case 'textarea':
-	?>
+		/*
+		 * Switch default core markup for search form, comment form, and comments
+		 * to output valid HTML5.
+		 */
+		add_theme_support(
+			'html5',
+			array(
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption',
+			)
+		);
 
-	<tr>
-		<th><strong><?php echo $value['name']; ?></strong></th>
-		<td><textarea name="<?php echo $value['id']; ?>" type="<?php echo $value['type']; ?>" cols="80" rows="5"><?php if (get_option($value['id']) != "") { echo stripslashes(get_option( $value['id'] )); } else { echo $value['std']; } ?></textarea>
-		<p><?php echo $value['desc']; ?></p></td>
-	</tr>
+		/**
+		 * Add support for core custom logo.
+		 *
+		 * @link https://codex.wordpress.org/Theme_Logo
+		 */
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 190,
+				'width'       => 190,
+				'flex-width'  => false,
+				'flex-height' => false,
+			)
+		);
 
-	<?php
-		break;
-		case 'select':
-	?>
+		// Add theme support for selective refresh for widgets.
+		add_theme_support( 'customize-selective-refresh-widgets' );
 
-	<tr>
-		<th><strong><?php echo $value['name']; ?></strong></th>
-		<td><select name="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>"><?php foreach ($value['options'] as $option) { ?><option<?php if (get_option($value['id']) == $option) { echo ' selected="selected"'; } elseif ($option == $value['std']) { echo ' selected="selected"'; } ?>><?php echo $option; ?></option><?php } ?></select> <?php echo $value['desc']; ?></td>
-	</tr>
+		// Add support for Block Styles.
+		add_theme_support( 'wp-block-styles' );
 
-	<?php
-		break;
-		case "checkbox":
-	?>
+		// Add support for full and wide align images.
+		add_theme_support( 'align-wide' );
 
-	<tr>
-		<th><strong><?php echo $value['name']; ?></strong></th>
-		<td><input type="checkbox" name="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>" value="1" <?php checked(true, get_option( $value['id'] )); ?> /> <?php echo $value['desc']; ?></td>
-	</tr>
+		// Add support for editor styles.
+		add_theme_support( 'editor-styles' );
 
-	<?php break;
-			}
-		}
-	?>
+		// Enqueue editor styles.
+		add_editor_style( 'style-editor.css' );
 
-	</table>
-	<p class="submit">
-		<input name="save" type="submit" class="button button-primary" value="Save Changes" />
-		<input type="hidden" name="action" value="save" />
-	</p>
-</form>
+		// Add custom editor font sizes.
+		add_theme_support(
+			'editor-font-sizes',
+			array(
+				array(
+					'name'      => __( 'Small', 'twentynineteen' ),
+					'shortName' => __( 'S', 'twentynineteen' ),
+					'size'      => 19.5,
+					'slug'      => 'small',
+				),
+				array(
+					'name'      => __( 'Normal', 'twentynineteen' ),
+					'shortName' => __( 'M', 'twentynineteen' ),
+					'size'      => 22,
+					'slug'      => 'normal',
+				),
+				array(
+					'name'      => __( 'Large', 'twentynineteen' ),
+					'shortName' => __( 'L', 'twentynineteen' ),
+					'size'      => 36.5,
+					'slug'      => 'large',
+				),
+				array(
+					'name'      => __( 'Huge', 'twentynineteen' ),
+					'shortName' => __( 'XL', 'twentynineteen' ),
+					'size'      => 49.5,
+					'slug'      => 'huge',
+				),
+			)
+		);
 
-<?php
+		// Editor color palette.
+		add_theme_support(
+			'editor-color-palette',
+			array(
+				array(
+					'name'  => __( 'Primary', 'twentynineteen' ),
+					'slug'  => 'primary',
+					'color' => twentynineteen_hsl_hex( 'default' === get_theme_mod( 'primary_color' ) ? 199 : get_theme_mod( 'primary_color_hue', 199 ), 100, 33 ),
+				),
+				array(
+					'name'  => __( 'Secondary', 'twentynineteen' ),
+					'slug'  => 'secondary',
+					'color' => twentynineteen_hsl_hex( 'default' === get_theme_mod( 'primary_color' ) ? 199 : get_theme_mod( 'primary_color_hue', 199 ), 100, 23 ),
+				),
+				array(
+					'name'  => __( 'Dark Gray', 'twentynineteen' ),
+					'slug'  => 'dark-gray',
+					'color' => '#111',
+				),
+				array(
+					'name'  => __( 'Light Gray', 'twentynineteen' ),
+					'slug'  => 'light-gray',
+					'color' => '#767676',
+				),
+				array(
+					'name'  => __( 'White', 'twentynineteen' ),
+					'slug'  => 'white',
+					'color' => '#FFF',
+				),
+			)
+		);
+
+		// Add support for responsive embedded content.
+		add_theme_support( 'responsive-embeds' );
 	}
-}
+endif;
+add_action( 'after_setup_theme', 'twentynineteen_setup' );
 
-add_action('admin_menu', 'tersus_add_admin');
+/**
+ * Register widget area.
+ *
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ */
+function twentynineteen_widgets_init() {
 
-
-// Automatic feed links support
-// http://codex.wordpress.org/Automatic_Feed_Links
-
-add_theme_support( 'automatic-feed-links' );
-
-
-// Post format support
-// http://codex.wordpress.org/Post_Formats
-
-add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
-
-
-// Add support for the_post_thumbnail
-// http://codex.wordpress.org/Post_Thumbnails
-
-add_theme_support( 'post-thumbnails' );
-set_post_thumbnail_size( 600, 9999, true );    // Normal post thumbnails
-add_image_size( 'archive-thumbnail', 50, 50 ); // Permalink thumbnail size
-
-
-// Page menu support
-// http://codex.wordpress.org/Function_Reference/register_nav_menus
-
-function register_my_menus() {
-	register_nav_menus(
-		array( 'header-menu' => 'Header Menu' )
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer', 'twentynineteen' ),
+			'id'            => 'sidebar-1',
+			'description'   => __( 'Add widgets here to appear in your footer.', 'twentynineteen' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
 	);
+
 }
+add_action( 'widgets_init', 'twentynineteen_widgets_init' );
 
-add_action( 'init', 'register_my_menus' );
+/**
+ * Set the content width in pixels, based on the theme's design and stylesheet.
+ *
+ * Priority 0 to make it available to lower priority callbacks.
+ *
+ * @global int $content_width Content width.
+ */
+function twentynineteen_content_width() {
+	// This variable is intended to be overruled from themes.
+	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+	$GLOBALS['content_width'] = apply_filters( 'twentynineteen_content_width', 640 );
+}
+add_action( 'after_setup_theme', 'twentynineteen_content_width', 0 );
 
+/**
+ * Enqueue scripts and styles.
+ */
+function twentynineteen_scripts() {
+	wp_enqueue_style( 'twentynineteen-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
 
-// Remove non-validating parent post link from header
+	wp_style_add_data( 'twentynineteen-style', 'rtl', 'replace' );
 
-remove_action('wp_head', 'parent_post_rel_link');
-
-
-// Add sidebar support
-// http://codex.wordpress.org/Function_Reference/register_sidebar
-
-register_sidebar(array(
-	'name'=>'Sidebar1',
-	'id'=>'sidebar-1',
-	'before_widget' => '<li id="%1$s" class="widget %2$s">',
-	'after_widget' => '</li>',
-	'before_title' => '<h2 class="widgettitle">',
-	'after_title' => '</h2>',
-));
-
-register_sidebar(array(
-	'name'=>'Sidebar2',
-	'id'=>'sidebar-2',
-	'before_widget' => '<li id="%1$s" class="widget %2$s">',
-	'after_widget' => '</li>',
-	'before_title' => '<h2 class="widgettitle">',
-	'after_title' => '</h2>',
-));
-
-
-// Add support for $content_width
-// Required by Theme Check Guidelines
-// http://make.wordpress.org/themes/guidelines/guidelines-theme-check/
-
-if ( ! isset( $content_width ) )
-	$content_width = 600;
-
-
-// Replace default body class verbosity
-
-if ( ! function_exists( 'tersus_body_class' ) ) {
-	function tersus_body_class($wp_class_list, $simple_class_list) {
-		// List allowed classes
-		$whitelist = array('home', 'page', 'single', 'attachment', 'archive', 'search', 'error404');
-
-		// Filter the unwanted classes
-		$wp_class_list = array_intersect($wp_class_list, $whitelist);
-		$tersus_body_class = $wp_class_list;
-		
-		// Output allowed classes
-		return array_merge($wp_class_list, (array) $tersus_body_class);
+	if ( has_nav_menu( 'menu-1' ) ) {
+		wp_enqueue_script( 'twentynineteen-priority-menu', get_theme_file_uri( '/js/priority-menu.js' ), array(), '1.1', true );
+		wp_enqueue_script( 'twentynineteen-touch-navigation', get_theme_file_uri( '/js/touch-keyboard-navigation.js' ), array(), '1.1', true );
 	}
 
-	add_filter('body_class', 'tersus_body_class', 10, 2);
-}
+	wp_enqueue_style( 'twentynineteen-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
 
-
-// Replace default post class verbosity
-
-if ( ! function_exists( 'tersus_post_class' ) ) {
-	function tersus_post_class() {
-		global $post;
-		$c = array();
-
-		// hentry for hAtom compliance
-		$c[] = 'hentry';
-
-		// Determine Post Format
-		$post_format = get_post_format( $post->ID );
-		if ( $post_format && !is_wp_error($post_format) ) $c[] = $post->post_type . '-' . sanitize_html_class( $post_format );
-
-		// Is it Sticky?
-		if ( is_sticky($post->ID) && is_home() && !is_paged() ) $c[] = 'sticky';
-
-		return $c;
-	}
-
-	add_filter( 'post_class', 'tersus_post_class' );
-}
-
-
-// Remove non-validating rel attributes from category links
-
-if ( ! function_exists( 'tersus_relfix' ) ) {
-	function tersus_relfix($c) {
-		return preg_replace('/category tag/','tag',$c);
-	}
-
-	add_filter('the_category','tersus_relfix');
-}
-
-
-// Remove styles injected by the Recent Comments widget
-// https://core.trac.wordpress.org/ticket/11928
-
-if ( ! function_exists( 'tersus_remove_style' ) ) {
-	function tersus_remove_style() {
-		global $wp_widget_factory;
-		remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style'  ) );
-	}
-
-	add_action( 'widgets_init', 'tersus_remove_style' );
-}
-
-
-// Add a proper thousands delimiter to category post counts
-
-if ( ! function_exists( 'tersus_delim' ) ) {
-	function tersus_delim($c) {
-		return preg_replace('/(\d)(\d{3})\b/','\1,\2',$c);	// Hat tip to MyFonts for the regex tweaks
-	}
-
-	add_filter('wp_list_categories','tersus_delim');
-}
-
-
-// Replace single attribute quotes with double quotes
-
-if ( ! function_exists( 'tersus_double_down' ) ) {
-	function tersus_double_down($c) {
-		return preg_replace('/\'/','"',$c);
-	}
-
-	add_filter('wp_tag_cloud','tersus_double_down');
-	add_filter('wp_list_categories','tersus_double_down');
-	add_filter('get_archives_link','tersus_double_down');
-	add_filter('get_comment_author_link','tersus_double_down');
-	add_filter('next_image_link','tersus_double_down');
-	add_filter('previous_image_link','tersus_double_down');
-
-	// The options-discussion.php admin page performs a preg_replace() when building the Default Avatar list.
-	// Without the following check, the current user's avatar is displayed instead of the default images.
-
-	if ( ! is_admin() ) {
-		add_filter('get_avatar','tersus_double_down');
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
 	}
 }
+add_action( 'wp_enqueue_scripts', 'twentynineteen_scripts' );
 
-
-// Remove crufty class and ID attributes from list elements
-
-if ( ! function_exists( 'tersus_decruft' ) ) {
-	function tersus_decruft($c) {
-		$c_ = preg_replace('/ class=[\"\'].+?[\"\']/','',$c);
-		return preg_replace('/ id=[\"\'].+?[\"\']/','',$c_);
-	}
-
-	add_filter('wp_tag_cloud','tersus_decruft');
-	add_filter('wp_list_bookmarks','tersus_decruft');
-	add_filter('wp_list_categories','tersus_decruft');
-	add_filter('wp_list_pages','tersus_decruft');
-	add_filter('wp_nav_menu','tersus_decruft');
-	add_filter('wp_page_menu','tersus_decruft');
-	add_filter('edit_comment_link','tersus_decruft');
-	add_filter('comment_reply_link','tersus_decruft');
-}
-
-
-// Remove crufty class and ID attributes from tag cloud, reformat title attributes
-
-if ( ! function_exists( 'tersus_decruft_tagcloud' ) ) {
-	function tersus_decruft_tagcloud($c) {
-		$c_ = preg_replace('/ style=[\"\'].+?[\"\']/','',$c);
-		return preg_replace('/ title=[\"\']([0-9]+?) topic(s?)[\"\']/',' title="View \1 post\2"',$c_);
-	}
-
-	add_filter('wp_tag_cloud','tersus_decruft_tagcloud');
-}
-
-
-// Remove crufty class attributes from avatars
-
-if ( ! function_exists( 'tersus_decruft_avatar' ) ) {
-	function tersus_decruft_avatar($c) {
-		return preg_replace('/ class=[\"\'].+?[\"\']/',' class="photo"',$c);
-	}
-
-	if ( ! is_admin() ) {	// Don't apply filter to admin pages
-		add_filter('get_avatar','tersus_decruft_avatar');
-	}
-}
-
-
-// Decruft and update comment form
-
-if ( ! function_exists( 'tersus_decruft_comment_form' ) ) {
-	function tersus_decruft_comment_form($c) {
-		$find = array(
-			'/ class=[\"\'].+?[\"\']/', 	// Find class attributes
-			'/ id=\"reply-title\"/',		// Find id attribute
-			'/<\/?small>/',					// Find <small> tags
-			'/type="submit"/'				// Find submit button
-			);
-		$replace = array(
-			'',								// Declass entire comment form
-			'',								// Remove ID attribute from title_reply
-			'',								// Remove <small> tags from cancel_reply_link
-			'type="submit" tabindex="5"'	// Add tabindex attribute to submit button
-			);
-		return preg_replace($find, $replace, $c);
-	}
-}
-
-
-// Replacement gallery shortcut function
-// Removes default cruft and verbosity
-//
-// Portions by Michael Preuss and Aaron Cimolini
-// http://snipplr.com/view.php?codeview&id=27051
-
-if ( ! function_exists( 'tersus_gallery' ) ) {
-	function tersus_gallery($attr) {
-		global $post;
-
-		static $instance = 0;
-		$instance++;
-
-		// Check for a valid orderby statement
-		if ( isset( $attr['orderby'] ) ) {
-			$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
-			if ( !$attr['orderby'] )
-				unset( $attr['orderby'] );
-		}
-
-		extract(shortcode_atts(array(
-			'order'      => 'ASC',
-			'orderby'    => 'menu_order ID',
-			'id'         => $post->ID,
-			'itemtag'    => 'dl',
-			'icontag'    => 'dt',
-			'captiontag' => 'dd',
-			'columns'    => 3,
-			'size'       => 'thumbnail',
-			'include'    => '',
-			'exclude'    => ''
-			), $attr));
-
-		$id = intval($id);
-		if ( 'RAND' == $order )
-			$orderby = 'none';
-
-		if ( !empty($include) ) {
-			$include = preg_replace( '/[^0-9,]+/', '', $include );
-			$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
-
-			$attachments = array();
-			foreach ( $_attachments as $key => $val ) {
-				$attachments[$val->ID] = $_attachments[$key];
-			}
-		} elseif ( !empty($exclude) ) {
-			$exclude = preg_replace( '/[^0-9,]+/', '', $exclude );
-			$attachments = get_children( array('post_parent' => $id, 'exclude' => $exclude, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
-		} else {
-			$attachments = get_children( array('post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
-		}
-
-		if ( empty($attachments) )
-			return '';
-
-		if ( is_feed() ) {
-			$output = "\n";
-			foreach ( $attachments as $att_id => $attachment )
-				$output .= wp_get_attachment_link($att_id, $size, true) . "\n";
-			return $output;
-		}
-
-		// Check to see whether any tags have been set to false
-		if ($itemtag) $itemtag = tag_escape($itemtag);
-		if ($captiontag) $captiontag = tag_escape($captiontag);
-		if ($icontag) $icontag = tag_escape($icontag);
-		$columns = intval($columns);
-
-		$output = "<div class=\"gallery " .$size. "\">\n";
-
-		$i = 0;
-		foreach ( $attachments as $id => $attachment ) {
-		  ++$i;
-			$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
-
-			if ($itemtag) {
-				$output .= "<" .$itemtag. ">";
-			}
-			if ($icontag) $output .= "\n\t<" .$icontag. ">\t";
-			$output .=  "\n\t".$link;
-			if ($icontag) $output .= "\n\t</" .$icontag. ">";
-			// if the attachment has a caption set
-			if ( trim($attachment->post_excerpt) ) {
-			  if ($captiontag) $output .= "\n<" .$captiontag. ">\n\t";
-			  $output .= wptexturize($attachment->post_excerpt);
-			  if ($captiontag) $output .= "\n</" .$captiontag. ">" . "\n";
-			}
-			if ($itemtag) $output .= "\n</" .$itemtag. ">\n";
-			if ( $columns > 0 && $i % $columns == 0 ) $output .= "\n";
-		}
-
-		$output .= "</div>\n";
-
-		return $output;
-	}
-
-	remove_shortcode('gallery');
-	add_shortcode('gallery', 'tersus_gallery');
-}
-
-
-// Replacement comment callback function
-// Remove crufty class and ID attributes
-
-if ( ! function_exists( 'tersus_comment' ) ) {
-	function tersus_comment($comment, $args, $depth) {
-		$GLOBALS['comment'] = $comment; ?>
-		<li id="comment-<?php comment_ID() ?>">
-			<p>Posted by <span class="vcard author"><?php echo get_avatar( $comment->comment_author_email, 48, '', $comment->comment_author ); ?> <?php printf('<cite class="fn">%s</cite>', get_comment_author_link()) ?></span> on <a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ) ?>" rel="bookmark" title="<?php comment_time('c') ?>"><?php comment_time('l, F jS, Y') ?></a>.</p>
-
-		<?php if ($comment->comment_approved == '0') : ?>
-			<p><em>This comment is awaiting moderation.</em></p>
-		<?php endif; ?>
-
-		<?php comment_text() ?>
-
-		<p><?php edit_comment_link('Edit Comment','',' | ') ?><?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?></p>
+/**
+ * Fix skip link focus in IE11.
+ *
+ * This does not enqueue the script because it is tiny and because it is only for IE11,
+ * thus it does not warrant having an entire dedicated blocking script being loaded.
+ *
+ * @link https://git.io/vWdr2
+ */
+function twentynineteen_skip_link_focus_fix() {
+	// The following is minified via `terser --compress --mangle -- js/skip-link-focus-fix.js`.
+	?>
+	<script>
+	/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
+	</script>
 	<?php
+}
+add_action( 'wp_print_footer_scripts', 'twentynineteen_skip_link_focus_fix' );
+
+/**
+ * Enqueue supplemental block editor styles.
+ */
+function twentynineteen_editor_customizer_styles() {
+
+	wp_enqueue_style( 'twentynineteen-editor-customizer-styles', get_theme_file_uri( '/style-editor-customizer.css' ), false, '1.1', 'all' );
+
+	if ( 'custom' === get_theme_mod( 'primary_color' ) ) {
+		// Include color patterns.
+		require_once get_parent_theme_file_path( '/inc/color-patterns.php' );
+		wp_add_inline_style( 'twentynineteen-editor-customizer-styles', twentynineteen_custom_colors_css() );
 	}
 }
+add_action( 'enqueue_block_editor_assets', 'twentynineteen_editor_customizer_styles' );
 
+/**
+ * Display custom color CSS in customizer and on frontend.
+ */
+function twentynineteen_colors_css_wrap() {
 
-// Add support for the_post_thumbnail in RSS feeds
-
-if ( ! function_exists( 'tersus_rss_thumb' ) ) {
-	function tersus_rss_thumb($content) {
-	   global $post;
-	   if ( has_post_thumbnail( $post->ID ) ){
-		   $content = '<p class="image">' . get_the_post_thumbnail( $post->ID, 'medium' ) . '</p>' . $content;
-	   }
-	   return $content;
+	// Only include custom colors in customizer or frontend.
+	if ( ( ! is_customize_preview() && 'default' === get_theme_mod( 'primary_color', 'default' ) ) || is_admin() ) {
+		return;
 	}
 
-	add_filter('the_excerpt_rss', 'tersus_rss_thumb');
-	add_filter('the_content_feed', 'tersus_rss_thumb');
-}
+	require_once get_parent_theme_file_path( '/inc/color-patterns.php' );
 
-
-// Tests whether post paging links should be shown
-
-function show_post_link_nav() {
-	$prev = get_previous_post();
-	$next = get_next_post();
-	if ( $prev || $next ) {
-		return true;
+	$primary_color = 199;
+	if ( 'default' !== get_theme_mod( 'primary_color', 'default' ) ) {
+		$primary_color = get_theme_mod( 'primary_color_hue', 199 );
 	}
+	?>
+
+	<style type="text/css" id="custom-theme-colors" <?php echo is_customize_preview() ? 'data-hue="' . absint( $primary_color ) . '"' : ''; ?>>
+		<?php echo twentynineteen_custom_colors_css(); ?>
+	</style>
+	<?php
 }
+add_action( 'wp_head', 'twentynineteen_colors_css_wrap' );
 
+/**
+ * SVG Icons class.
+ */
+require get_template_directory() . '/classes/class-twentynineteen-svg-icons.php';
 
-// Tests whether archive paging links should be shown
+/**
+ * Custom Comment Walker template.
+ */
+require get_template_directory() . '/classes/class-twentynineteen-walker-comment.php';
 
-function show_posts_link_nav() {
-	$prev = get_previous_posts_link();
-	$next = get_next_posts_link();
-	if ( $prev || $next ) {
-		return true;
-	}
-}
+/**
+ * Enhance the theme by hooking into WordPress.
+ */
+require get_template_directory() . '/inc/template-functions.php';
 
+/**
+ * SVG Icons related functions.
+ */
+require get_template_directory() . '/inc/icon-functions.php';
 
-// Tests whether comment paging links should be shown
+/**
+ * Custom template tags for the theme.
+ */
+require get_template_directory() . '/inc/template-tags.php';
 
-function show_comments_link_nav() {
-	$prev = get_previous_comments_link();
-	$next = get_next_comments_link();
-	if ( $prev || $next ) {
-		return true;
-	}
-}
-
-
-// Tests whether image paging links should be shown
-
-function show_image_link_nav() {
-
-	ob_start();
-	previous_image_link();
-	$prev = ob_get_contents();
-	ob_end_clean();
-
-	ob_start();
-	next_image_link();
-	$next = ob_get_contents();
-	ob_end_clean();
-
-	if ( $prev || $next ) {
-		return true;
-	}
-}
-
-
-// Removes the link delimiter when viewing first or last post
-
-function delim_post_link() {
-	$prev = get_previous_post();
-	$next = get_next_post();
-	if ( $prev && $next ) {
-		$d = " | ";
-		echo apply_filters( 'post_link_delim', $d );
-	}
-}
-
-
-// Removes the link delimiter when viewing first or last archive page
-
-function delim_posts_link() {
-	$prev = get_previous_posts_link();
-	$next = get_next_posts_link();
-	if ( $prev && $next ) {
-		$d = " | ";
-		echo apply_filters( 'posts_link_delim', $d );
-	}
-}
-
-
-// Removes the link delimiter when viewing first or last comment
-
-function delim_comment_link() {
-	$prev = get_previous_comments_link();
-	$next = get_next_comments_link();
-	if ( $prev && $next ) {
-		$d = " | ";
-		echo apply_filters( 'comment_link_delim', $d );
-	}
-}
-
-
-// Removes the link delimiter when viewing first or last image
-
-function delim_image_link() {
-
-	ob_start();
-	previous_image_link();
-	$prev = ob_get_contents();
-	ob_end_clean();
-
-	ob_start();
-	next_image_link();
-	$next = ob_get_contents();
-	ob_end_clean();
-
-	if ( $prev && $next ) {
-		$d = " | ";
-		echo apply_filters( 'image_link_delim', $d );
-	}
-}
-
-
-// Custom excerpt links
-
-if ( ! function_exists( 'tersus_excerpt_more' ) ) {
-	function tersus_excerpt_more($more) {
-		global $post;
-		$t = get_post($post->ID);
-		$title = $t->post_title;
-		return ' &#8230; <a href="' . get_permalink($post->ID) . '" title="Read the rest of &#8220;' . $title . '&#8221;">Read the rest of this item</a>';
-	}
-
-	add_filter('excerpt_more', 'tersus_excerpt_more');
-}
-
-
-// Custom title element text
-
-if ( ! function_exists( 'tersus_title' ) ) {
-	function tersus_title( $title, $sep ) {
-		global $paged, $page;
-
-		if ( is_feed() )
-			return $title;
-
-		// Add the site name
-		$title .= get_bloginfo( 'name' );
-
-		// Add the site description to home or front page
-		// $site_description = get_bloginfo( 'description', 'display' );
-		// if ( $site_description && ( is_home() || is_front_page() ) )
-		//		$title = "$title $sep $site_description";
-
-		// Add tag designation
-		if ( is_tag() )
-			$title = 'Tag ' . "$sep $title";
-
-		// Add category designation
-		if ( is_category() )
-			$title = 'Category ' . "$sep $title";
-
-		// Add archive designation
-		if ( is_day() || is_month() || is_year() )
-			$title = 'Archive ' . "$sep $title";
-
-		// Add pretty search terms
-		if ( is_search() )
-			$title = 'Search Results ' . "$sep " . '&#8220;' . get_search_query() . '&#8221;' . " $sep " . get_bloginfo( 'name' );
-
-		// Add a page number if necessary
-		if ( $paged >= 2 || $page >= 2 )
-			$title = "$title $sep " . sprintf( 'Page %s', max( $paged, $page ) );
-
-		return $title;
-	}
-
-	add_filter( 'wp_title', 'tersus_title', 10, 2 );
-}
-
-?>
+/**
+ * Customizer additions.
+ */
+require get_template_directory() . '/inc/customizer.php';

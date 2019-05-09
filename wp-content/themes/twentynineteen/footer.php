@@ -1,41 +1,57 @@
 <?php
 /**
+ * The template for displaying the footer
+ *
+ * Contains the closing of the #content div and all content after.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
  * @package WordPress
- * @subpackage Tersus
+ * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
+
 ?>
 
-<?php
-	global $options;
-	foreach ($options as $value) {
-		if (get_option( $value['id'] ) === FALSE) { $$value['id'] = $value['std']; } else { $$value['id'] = get_option( $value['id'] ); }
-	}
-?>
+	</div><!-- #content -->
 
-		<footer>
+	<footer id="colophon" class="site-footer">
+		<?php get_template_part( 'template-parts/footer/footer', 'widgets' ); ?>
+		<div class="site-info">
+			<?php $blog_info = get_bloginfo( 'name' ); ?>
+			<?php if ( ! empty( $blog_info ) ) : ?>
+				<a class="site-name" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>,
+			<?php endif; ?>
+			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentynineteen' ) ); ?>" class="imprint">
+				<?php
+				/* translators: %s: WordPress. */
+				printf( __( 'Proudly powered by %s.', 'twentynineteen' ), 'WordPress' );
+				?>
+			</a>
 			<?php
-			if ($tersus_footer_display == "1"):
-				echo (stripslashes($tersus_footer_text));
-			endif;
-			if ($tersus_theme_information == "1"): ?>
-			<ul>
-				<li>Powered by <a href="http://wordpress.org/" rel="external" title="Code is poetry.">WordPress <?php bloginfo('version'); ?></a></li>
-				<li>Themed by <a href="<?php echo THEME_URI; ?>" rel="external" title="<?php echo THEME_DESCRIPTION; ?>"><?php echo THEME_NAME; ?> <?php echo THEME_VERSION; ?></a></li>
-				<?php if (defined('CHILD_THEME_NAME')): ?>
-				<li>Styled by <a href="<?php echo CHILD_THEME_URI; ?>" rel="external" title="<?php echo CHILD_THEME_DESCRIPTION; ?>"><?php echo CHILD_THEME_NAME; ?> <?php echo CHILD_THEME_VERSION; ?></a></li>
-				<?php endif; ?>
-			</ul>
+			if ( function_exists( 'the_privacy_policy_link' ) ) {
+				the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
+			}
+			?>
+			<?php if ( has_nav_menu( 'footer' ) ) : ?>
+				<nav class="footer-navigation" aria-label="<?php esc_attr_e( 'Footer Menu', 'twentynineteen' ); ?>">
+					<?php
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer',
+							'menu_class'     => 'footer-menu',
+							'depth'          => 1,
+						)
+					);
+					?>
+				</nav><!-- .footer-navigation -->
 			<?php endif; ?>
-			<ul>
-				<li>Subscribe to <a href="<?php bloginfo('rss2_url'); ?>" rel="alternate" title="Feed me.">all posts</a> (RSS)</li>
-				<li>Subscribe to <a href="<?php bloginfo('comments_rss2_url'); ?>" rel="alternate" title="Feed me.">all comments</a> (RSS)</li>
-			<?php if (is_singular()): ?>
-				<li>Subscribe to <a href="<?php echo get_post_comments_feed_link(); ?>" rel="alternate" title="Feed me.">comments for this page only</a> (RSS)</li>
-			<?php endif; ?>
-			</ul>
-		</footer>
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
 
-		<?php wp_footer(); ?>
+</div><!-- #page -->
 
-	</body>
+<?php wp_footer(); ?>
+
+</body>
 </html>

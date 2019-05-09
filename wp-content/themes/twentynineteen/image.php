@@ -1,65 +1,104 @@
 <?php
 /**
+ * The template for displaying image attachments
+ *
  * @package WordPress
- * @subpackage Tersus
+ * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
+
+get_header();
 ?>
 
-<?php get_header(); ?>
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
 
-<?php $content_width = get_option( 'large_size_w' ); // Set $content_width to match options setting for large images ?>
+			<?php
+				// Start the loop.
+			while ( have_posts() ) :
+				the_post();
+				?>
 
-<section id="content">
+				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+					<header class="entry-header">
+					<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+					</header><!-- .entry-header -->
 
-<?php if (show_image_link_nav()): ?>
-	<nav><?php previous_image_link(0,'Previous Image'); delim_image_link(); next_image_link(0,'Next Image'); ?></nav>
-<?php endif; ?>
+					<div class="entry-content">
 
-	<article <?php post_class() ?> id="post-<?php the_ID(); ?>">
+						<figure class="entry-attachment wp-block-image">
+						<?php
+							/**
+							 * Filter the default twentynineteen image attachment size.
+							 *
+							 * @since Twenty Sixteen 1.0
+							 *
+							 * @param string $image_size Image size. Default 'large'.
+							 */
+							$image_size = apply_filters( 'twentynineteen_attachment_size', 'full' );
 
-		<p class="published" title="<?php the_time('c') ?>"><?php the_time(get_option('date_format')); ?></p>
-		<h2 class="entry-title"><?php the_title(); ?></h2>
-		<p><a href="<?php echo wp_get_attachment_url($post->ID); ?>"><?php echo wp_get_attachment_image( $post->ID, 'large' ); ?></a></p>
-		<?php
-			// Display the caption
-			if ( !empty($post->post_excerpt) ) the_excerpt();
-			// Display the description
-			the_content();
-		?>
+							echo wp_get_attachment_image( get_the_ID(), $image_size );
+						?>
 
-		<p>This item was posted by <span class="vcard author"><cite class="fn"><a class="url" href="<?php the_author_meta('user_url') ?>" title="Visit the author&#8217;s site"><?php the_author_meta('display_name'); ?></a></cite></span> in <a href="<?php echo get_permalink($post->post_parent); ?>" title="View the gallery"><?php echo get_the_title($post->post_parent); ?></a>.</p>
+							<figcaption class="wp-caption-text"><?php the_excerpt(); ?></figcaption>
 
-		<?php the_taxonomies(); ?>
+						</figure><!-- .entry-attachment -->
 
-		<?php if ( comments_open() && pings_open() ) { ?>
-		<p><a href="#respond" title="Contribute to the discussion">Leave a comment</a> or <a href="<?php trackback_url(); ?>" title="Send a notification when you link to this page">send a trackback</a> from your own site.</p>
+						<?php
+						the_content();
+						wp_link_pages(
+							array(
+								'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentynineteen' ) . '</span>',
+								'after'       => '</div>',
+								'link_before' => '<span>',
+								'link_after'  => '</span>',
+								'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentynineteen' ) . ' </span>%',
+								'separator'   => '<span class="screen-reader-text">, </span>',
+							)
+						);
+						?>
+					</div><!-- .entry-content -->
 
-		<?php } elseif ( !comments_open() && pings_open() ) { ?>
-		<p>Comments are closed, but you can <a href="<?php trackback_url(); ?>" title="Send a notification when you link to this page">send a trackback</a> from your own site.</p>
+					<footer class="entry-footer">
+					<?php
+						// Retrieve attachment metadata.
+						$metadata = wp_get_attachment_metadata();
+					if ( $metadata ) {
+						printf(
+							'<span class="full-size-link"><span class="screen-reader-text">%1$s</span><a href="%2$s">%3$s &times; %4$s</a></span>',
+							_x( 'Full size', 'Used before full size attachment link.', 'twentynineteen' ),
+							esc_url( wp_get_attachment_url() ),
+							absint( $metadata['width'] ),
+							absint( $metadata['height'] )
+						);
+					}
+					?>
 
-		<?php } elseif ( comments_open() && !pings_open() ) { ?>
-		<p><a href="#respond" title="Contribute to the discussion">Leave a comment</a>.</p>
+						<?php twentynineteen_entry_footer(); ?>
 
-		<?php } elseif ( !comments_open() && !pings_open() ) { ?>
-		<p>Comments are closed.</p>
+					</footer><!-- .entry-footer -->
+				</article><!-- #post-## -->
 
-		<?php } edit_post_link('Edit','<p>','</p>'); ?>
+				<?php
+				// Parent post navigation.
+				the_post_navigation(
+					array(
+						'prev_text' => _x( '<span class="meta-nav">Published in</span><br><span class="post-title">%title</span>', 'Parent post link', 'twentynineteen' ),
+					)
+				);
 
-	</article>
+				// If comments are open or we have at least one comment, load up the comment template.
+				if ( comments_open() || get_comments_number() ) {
+					comments_template();
+				}
 
-<?php if (show_image_link_nav()): ?>
-	<nav><?php previous_image_link(0,'Previous Image'); delim_image_link(); next_image_link(0,'Next Image'); ?></nav>
-<?php endif; ?>
+				// End the loop.
+				endwhile;
+			?>
 
-<?php comments_template(); ?>
+		</main><!-- .site-main -->
+	</section><!-- .content-area -->
 
-<?php endwhile; else: ?>
-	<p>Sorry, no attachments matched your criteria.</p>
-<?php endif; ?>
-
-</section>
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php
+get_footer();

@@ -1,44 +1,55 @@
 <?php
 /**
+ * The template for displaying search results pages
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#search-result
+ *
  * @package WordPress
- * @subpackage Tersus
+ * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
+
+get_header();
 ?>
 
-<?php get_header(); ?>
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
 
-<section id="content">
-<?php if (have_posts()) : ?>
+		<?php if ( have_posts() ) : ?>
 
-	<h2>Search: &#8220;<span><?php the_search_query(); ?></span>&#8221;</h2>
+			<header class="page-header">
+				<h1 class="page-title">
+					<?php _e( 'Search results for:', 'twentynineteen' ); ?>
+				</h1>
+				<div class="page-description"><?php echo get_search_query(); ?></div>
+			</header><!-- .page-header -->
 
-<?php if (show_posts_link_nav()): ?>
-	<nav><?php next_posts_link('Older'); delim_posts_link(); previous_posts_link('Newer') ?></nav>
-<?php endif; ?>
+			<?php
+			// Start the Loop.
+			while ( have_posts() ) :
+				the_post();
 
-	<?php while (have_posts()) : the_post(); ?>
+				/*
+				 * Include the Post-Format-specific template for the content.
+				 * If you want to override this in a child theme, then include a file
+				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
+				 */
+				get_template_part( 'template-parts/content/content', 'excerpt' );
 
-	<article <?php post_class() ?> id="post-<?php the_ID(); ?>">
-		<p class="published" title="<?php the_time('c') ?>"><?php the_time(get_option('date_format')); ?></p>
-		<h3 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent link to &#8220;<?php the_title_attribute(); ?>&#8221;"><?php if(the_title( '', '', false ) !='') the_title(); else echo 'Untitled';?></a></h3>
-		<?php the_excerpt(); ?>
-		<p class="meta">This item was posted by <span class="vcard author"><cite class="fn"><a class="url" href="<?php the_author_meta('user_url') ?>" title="Visit the author&#8217;s site"><?php the_author_meta('display_name'); ?></a></cite></span>.</p>
-		<?php edit_post_link('Edit', '<p>', '</p>'); ?>
-	</article>
+				// End the loop.
+			endwhile;
 
-	<?php endwhile; ?>
+			// Previous/next page navigation.
+			twentynineteen_the_posts_navigation();
 
-<?php if (show_posts_link_nav()): ?>
-	<nav><?php next_posts_link('Older'); delim_posts_link(); previous_posts_link('Newer') ?></nav>
-<?php endif; ?>
-	
-<?php else : ?>
+			// If no content, include the "No posts found" template.
+		else :
+			get_template_part( 'template-parts/content/content', 'none' );
 
-	<h2>Not found.</h2>
-	<p>Sorry, you seem to be looking for something that simply isn&#8217;t here.</p>
+		endif;
+		?>
+		</main><!-- #main -->
+	</section><!-- #primary -->
 
-<?php endif; ?>
-</section>
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php
+get_footer();

@@ -1,60 +1,47 @@
 <?php
 /**
+ * The main template file
+ *
+ * This is the most generic template file in a WordPress theme
+ * and one of the two required files for a theme (the other being style.css).
+ * It is used to display a page when nothing more specific matches a query.
+ * E.g., it puts together the home page when no home.php file exists.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ *
  * @package WordPress
- * @subpackage Tersus
+ * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
+
+get_header();
 ?>
 
-<?php get_header(); ?>
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
 
-<section id="content">
-<?php if (have_posts()) : ?>
+		<?php
+		if ( have_posts() ) {
 
-	<?php while (have_posts()) : the_post(); ?>
+			// Load posts loop.
+			while ( have_posts() ) {
+				the_post();
+				get_template_part( 'template-parts/content/content' );
+			}
 
-		<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
-		
-			<?php if(!has_post_format('aside') && !has_post_format('image')) { ?>
-				<p class="published" title="<?php the_time('c') ?>"><?php the_time(get_option('date_format')); ?></p>
-				<h2 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent link to &#8220;<?php the_title_attribute(); ?>&#8221;"><?php the_title(); ?></a></h2>
+			// Previous/next page navigation.
+			twentynineteen_the_posts_navigation();
 
-			<?php }
-				the_content();
-				if(!has_post_format('aside') && !has_post_format('image')) {
-			?>
-				<h6>Author</h6>
-				<p class="vcard author">
-					<cite class="fn">
-						<a class="url" href="<?php the_author_meta('user_url') ?>" title="Visit the author&#8217;s site">
-							<?php the_author_meta('display_name'); ?>
-						</a>
-					</cite>
-				</p>
-				<?php if (has_tag()) { ?>
-					<h6>Tags</h6>
-					<p><?php the_tags( '', ', ', '' ) ?></p>
-				<?php } ?>
-				<h6>Categories</h6>
-				<p><?php the_category( ', ' ) ?></p>
-			<?php } ?>
-			
-			<p><a href="<?php the_permalink(); ?>#respond" title="Contribute to the discussion"><?php comments_number('No Comments', '1 Comment', '% Comments'); ?></a></p>
-			<?php edit_post_link('Edit', '<p>', '</p>'); ?>
-		</article>
+		} else {
 
-	<?php endwhile; ?>
+			// If no content, include the "No posts found" template.
+			get_template_part( 'template-parts/content/content', 'none' );
 
-	<?php if (show_posts_link_nav()): ?>
-		<nav><?php next_posts_link('Older'); delim_posts_link(); previous_posts_link('Newer') ?></nav>
-	<?php endif; ?>
+		}
+		?>
 
-<?php else : ?>
+		</main><!-- .site-main -->
+	</section><!-- .content-area -->
 
-	<h2>Not found.</h2>
-	<p>Sorry, you seem to be looking for something that simply isn&#8217;t here.</p>
-
-<?php endif; ?>
-</section>
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php
+get_footer();

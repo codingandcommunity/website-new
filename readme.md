@@ -16,6 +16,6 @@ A docker-compose.yml is included for convenience
 2. install npm
 3. change to the `wp-content/themes/cc-theme/` directory
 4. run `npm install`
-5. run `npx node-sass ./assets/sass/style.scss ./assets/css/style.css` to rebuild css
+5. run `npx node-sass ./assets/sass/style.sass ./assets/css/style.css` to rebuild css
 
 **note:** the theme will not work properly until it is built locally with the instructions above

@@ -1,10 +1,51 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,800 ');
 
 $family-sans-serif: "Open sans", sans-serif;
 $blue: #18B1FF;
-$link: $blue;
 $black: #000;
+$orange: #FF6922;
+$dark-blue: #084C61;
+$light-blue: #43D2E8;
+
+$link: $blue;
+$warning: $orange;
+
 $navbar-item-img-max-height: 40px;
 $primary: $blue;
+$navbar-height: 5rem;
+
+.has-background-dark-blue 
+    background-color: $dark-blue !important;
+
+.has-text-weight-super-bold
+    font-weight: 900 !important;
+
+.is-long
+    padding-bottom: 18rem;
+
+.frontpage-mission-overlap
+    margin-top: -14rem !important;
+
+.column.bordered
+    &:not(:last-child)
+        border-right: 1px solid #E6ECF8;
+
 
 @import "../../node_modules/bulma/bulma.sass";
+
+.bar
+    height: 30px;
+    margin: 10px 0;
+    border-radius: 10px;
+    background-color: $grey-light;
+    &.dark
+        background-color: $grey-dark !important;
+
+.header-bg
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    float: none;
+    opacity: 0.5;

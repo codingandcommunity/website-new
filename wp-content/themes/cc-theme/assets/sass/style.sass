@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,800 ');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700,800|Open+Sans:400,700,800 ');
+@import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 
 $family-sans-serif: "Open sans", sans-serif;
 $blue: #18B1FF;
 $black: #000;
 $orange: #FF6922;
-$dark-blue: #084C61;
+$dark-blue: #303E4D;
 $light-blue: #43D2E8;
 
 $link: $blue;
@@ -13,6 +14,9 @@ $warning: $orange;
 $navbar-item-img-max-height: 40px;
 $primary: $blue;
 $navbar-height: 5rem;
+
+$family-primary: $family-sans-serif;
+$family-secondary: 'Montserrat', sans-serif;
 
 .has-background-dark-blue 
     background-color: $dark-blue !important;
@@ -33,6 +37,18 @@ $navbar-height: 5rem;
 
 @import "../../node_modules/bulma/bulma.sass";
 
+// .has-font-header
+//     font-family: 'Montserrat', sans-serif;
+//     font-weight: 800;
+.title
+    @extend .title
+    font-family: $family-secondary;
+    text-transform: uppercase;
+
+.subtitle
+    @extend .subtitle
+    font-family: $family-secondary;
+
 .bar
     height: 30px;
     margin: 10px 0;
@@ -49,3 +65,8 @@ $navbar-height: 5rem;
     width: 100%;
     float: none;
     opacity: 0.5;
+
+.blur-bg
+    background-size: cover;
+    background-position: center;
+    // filter: blur(8px);

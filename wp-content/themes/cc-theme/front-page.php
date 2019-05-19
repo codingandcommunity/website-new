@@ -2,7 +2,7 @@
 <section style="background-image: url(<?php echo get_theme_mod('logo', 'none') ?>)" class="section blur-bg">
     <div class="container">
 
-        <div class="hero is-medium">
+        <div class="hero is-large">
             <div class="hero-body">
                 <div class="container has-text-centered">
                     <p class="title is-1 has-text-info has-text-weight-bold has-font-header">BRINGING CODE TO PEOPLE OR WHATEVER</p>
@@ -62,9 +62,9 @@
     </div>
     </div>
 </section>
-<div class="hero is-medium has-background-info is-long">
+<div class="hero is-medium has-background-dark-blue is-fullheight">
     <div class="hero-body">
-        <div class="container">
+        <div style="margin-top: -45rem;" class="container box has-background-info">
             <div class="columns">
                 <?php if (get_theme_mod('mission-img') != '#FFF') : ?>
                     <div class="column">
@@ -82,7 +82,7 @@
         </div>
     </div>
 </div>
-<div class="container hero is-large frontpage-mission-overlap">
+<div class="container hero is-fullheight frontpage-mission-overlap">
     <div class="columns">
         <div class="column">
             <div class="box">

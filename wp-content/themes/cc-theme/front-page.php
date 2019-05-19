@@ -17,7 +17,7 @@
     </div>
     </div>
 </section>
-<div class="hero is-large">
+<div class="hero">
     <div class="hero-body">
         <div class="container box has-background-info">
             <div class="columns">
@@ -29,8 +29,8 @@
                     </div>
                 <?php endif ?>
                 <div class="column has-text-right">
-                    <p class="title has-text-white">Heading about mission statement</p>
-                    <p class="subtitle has-text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. Nullam ornare lacus et enim laoreet, et lacinia ante bibendum. Morbi nec posuere mi. Aenean aliquet magna et auctor ornare. Aliquam congue ex at varius vestibulum. Maecenas eleifend dui vitae pulvinar bibendum. Duis faucibus elementum lobortis. Morbi feugiat, lectus id suscipit ullamcorper, purus purus consectetur nunc, sed cursus ex enim eget elit. Nunc porttitor nulla quam, sit amet tempor ligula convallis non. Nulla dictum sollicitudin leo, sollicitudin congue tortor fermentum at.</p>
+                    <p class="title has-text-white is-1">Heading about mission statement</p>
+                    <p class="subtitle has-text-white is-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. </p>
 
                 </div>
             </div>

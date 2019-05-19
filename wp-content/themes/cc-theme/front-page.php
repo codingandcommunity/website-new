@@ -5,7 +5,7 @@
         <div class="hero is-large">
             <div class="hero-body">
                 <div class="container has-text-centered">
-                    <p class="title is-1 has-text-info has-text-weight-bold has-font-header">BRINGING CODE TO PEOPLE OR WHATEVER</p>
+                    <p class="title is-massive has-text-info has-text-weight-bold has-font-header">BRINGING CODE TO PEOPLE OR WHATEVER</p>
                     <br>
                     <p class="subtitle has-font-header">SUBTITLE TEXT GOES HERE</p>
                 </div>

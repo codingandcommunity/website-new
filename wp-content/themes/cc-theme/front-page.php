@@ -2,69 +2,24 @@
 <section style="background-image: url(<?php echo get_theme_mod('logo', 'none') ?>)" class="section blur-bg">
     <div class="container">
 
-        <div class="hero is-large">
+        <div class="hero is-medium">
             <div class="hero-body">
                 <div class="container has-text-centered">
-                    <p class="title is-massive has-text-info has-text-weight-bold has-font-header">BRINGING CODE TO PEOPLE OR WHATEVER</p>
+                    <p class="title is-massive has-text-info has-text-weight-bold has-font-header">WE CREATE EDUCATIONAL OPPROTUNITIES</p>
                     <br>
-                    <p class="subtitle has-font-header">SUBTITLE TEXT GOES HERE</p>
-                </div>
-                <div class="header-bg">
-                    <div class="columns">
-                        <div class="column">
-                            <div class="bar"></div>
-                        </div>
-                        <div class="column">
-                            <div class="bar"></div>
-                        </div>
-                        <div class="column">
-                        </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column">
-                            <div class="bar"></div>
-                        </div>
-                        <div class="column">
-                            <div class="bar dark"></div>
-                        </div>
-                        <div class="column">
-                        </div>
-                        <div class="column">
-                        </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column">
-                            <div class="bar"></div>
-                        </div>
-                        <div class="column">
-                        </div>
-                        <div class="column">
-                        </div>
+                    <p class="subtitle is-3 has-font-header">Coding and Community is an organization headquartered in Troy NY. We are dedicated to teaching computer science to underrepresented high school and middle school students.</p>
+                    <span class="button is-large is-info">Learn More</span>
 
-                    </div>
-                    <div class="columns">
-                        <div class="column">
-                            <div class="bar dark"></div>
-                        </div>
-                        <div class="column">
-                            <div class="bar"></div>
-                        </div>
-                        <div class="column">
-                            <div class="bar dark"></div>
-                        </div>
-                        <div class="column">
 
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     </div>
 </section>
-<div class="hero is-medium has-background-dark-blue is-fullheight">
+<div class="hero is-large">
     <div class="hero-body">
-        <div style="margin-top: -45rem;" class="container box has-background-info">
+        <div class="container box has-background-info">
             <div class="columns">
                 <?php if (get_theme_mod('mission-img') != '#FFF') : ?>
                     <div class="column">
@@ -82,7 +37,7 @@
         </div>
     </div>
 </div>
-<div class="container hero is-fullheight frontpage-mission-overlap">
+<div class="container hero is-fullheight">
     <div class="columns">
         <div class="column">
             <div class="box">

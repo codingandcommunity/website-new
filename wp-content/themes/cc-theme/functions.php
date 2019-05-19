@@ -341,4 +341,67 @@ function my_customize_register($wp_customize)
 			)
 		)
 	);
+
+	// Create custom panel.
+	$wp_customize->add_panel('text_blocks', array(
+		'priority'       => 500,
+		'theme_supports' => '',
+		'title'          => __('Text Blocks', 'cc'),
+		'description'    => __('Set editable text for certain content.', 'cc'),
+	));
+	// Add Footer Text
+	// Add section.
+	$wp_customize->add_section('custom_title_text', array(
+		'title'    => __('Change Title Text', 'cc'),
+		'panel'    => 'text_blocks',
+		'priority' => 10
+	));
+
+	// Add setting
+	$wp_customize->add_setting('title_text_block', array(
+		'default'           => __('default text', 'cc'),
+		'sanitize_callback' => 'sanitize_text'
+	));
+	// Add control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'custom_title_text',
+			array(
+				'label'    => __('Title Text', 'cc'),
+				'section'  => 'custom_title_text',
+				'settings' => 'title_text_block',
+				'type'     => 'text'
+			)
+		)
+	);
+
+	$wp_customize->add_section('custom_subtitle_text', array(
+		'title'    => __('Change Subtitle Text', 'cc'),
+		'panel'    => 'text_blocks',
+		'priority' => 10
+	));
+	// Add setting
+	$wp_customize->add_setting('subtitle_text_block', array(
+		'default'           => __('default text', 'cc'),
+		'sanitize_callback' => 'sanitize_text'
+	));
+	// Add control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'custom_subtitle_text',
+			array(
+				'label'    => __('Title Text', 'cc'),
+				'section'  => 'custom_subtitle_text',
+				'settings' => 'subtitle_text_block',
+				'type'     => 'text'
+			)
+		)
+	);
+	// Sanitize text
+	function sanitize_text($text)
+	{
+		return sanitize_text_field($text);
+	}
 }

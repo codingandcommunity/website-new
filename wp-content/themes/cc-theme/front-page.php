@@ -5,9 +5,9 @@
         <div class="hero is-medium">
             <div class="hero-body">
                 <div class="container has-text-centered">
-                    <p class="title is-massive has-text-info has-text-weight-bold has-font-header">WE CREATE EDUCATIONAL OPPROTUNITIES</p>
+                    <p class="title is-massive has-text-info has-text-weight-bold has-font-header"><?php echo get_theme_mod('title_text_block', 'TITLE TEXT') ?></p>
                     <br>
-                    <p class="subtitle is-3 has-font-header">Coding and Community is an organization headquartered in Troy NY. We are dedicated to teaching computer science to underrepresented high school and middle school students.</p>
+                    <p class="subtitle is-3 has-font-header"><?php echo get_theme_mod('subtitle_text_block', 'SUBTITLE TEXT') ?></p>
                     <span class="button is-large is-info">Learn More</span>
 
 

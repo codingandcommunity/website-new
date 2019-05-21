@@ -399,6 +399,54 @@ function my_customize_register($wp_customize)
 			)
 		)
 	);
+
+	$wp_customize->add_section('custom_mission_text', array(
+		'title'    => __('Change Mission Text', 'cc'),
+		'panel'    => 'text_blocks',
+		'priority' => 10
+	));
+	// Add setting
+	$wp_customize->add_setting('mission_text_block', array(
+		'default'           => __('default text', 'cc'),
+		'sanitize_callback' => 'sanitize_text'
+	));
+	// Add control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'custom_mission_text',
+			array(
+				'label'    => __('Title Text', 'cc'),
+				'section'  => 'custom_mission_text',
+				'settings' => 'mission_text_block',
+				'type'     => 'text'
+			)
+		)
+	);
+
+	$wp_customize->add_section('custom_mission_body', array(
+		'title'    => __('Change Mission Body', 'cc'),
+		'panel'    => 'text_blocks',
+		'priority' => 10
+	));
+	// Add setting
+	$wp_customize->add_setting('mission_body_block', array(
+		'default'           => __('default text', 'cc'),
+		'sanitize_callback' => 'sanitize_text'
+	));
+	// Add control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'custom_mission_body',
+			array(
+				'label'    => __('Title Text', 'cc'),
+				'section'  => 'custom_mission_body',
+				'settings' => 'mission_body_block',
+				'type'     => 'text'
+			)
+		)
+	);
 	// Sanitize text
 	function sanitize_text($text)
 	{

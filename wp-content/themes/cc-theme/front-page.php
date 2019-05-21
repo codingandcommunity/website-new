@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<section class="section blur-bg">
+<section class="section">
     <div style="background-image: url(<?php echo get_theme_mod('logo', 'none') ?>)" class="bg-image">
     </div>
     <div class="container">
@@ -18,6 +18,7 @@
     </div>
     </div>
 </section>
+<section class="section"></section>
 <section class="section">
     <div class="hero">
         <div class="hero-body">
@@ -31,47 +32,54 @@
                         </div>
                     <?php endif ?>
                     <div class="column has-text-right">
-                        <p class="title is-1">Heading about mission statement</p>
-                        <p class="subtitle is-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. </p>
-    
+                        <p class="title is-1"><?php echo get_theme_mod('mission_text_block', 'Mission text') ?></p>
+                        <p class="subtitle is-4"><?php echo get_theme_mod('mission_body_block', 'Mission body')?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="container is-fullheight">
+                <div class="columns">
+                    <div class="column">
+                        <div class="box">
+                            <p class="title"><i class="fas fa-laptop-code"></i> Content</p>
+                            <p class="subtitle">Content</p>
+                            <p class="">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. Nullam ornare lacus et enim laoreet, et lacinia ante bibendum. Morbi nec posuere mi. Aenean aliquet magna et auctor ornare. Aliquam congue ex at varius vestibulum. Maecenas eleifend dui vitae pulvinar bibendum. Duis faucibus elementum lobortis. Morbi feugiat, lectus id suscipit ullamcorper, purus purus consectetur nunc, sed cursus ex enim eget elit. Nunc porttitor nulla quam, sit amet tempor ligula convallis non. Nulla dictum sollicitudin leo, sollicitudin congue tortor fermentum at.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="title"><i class="fas fa-laptop-code"></i> Content</p>
+                            <p class="subtitle">Content</p>
+                            <p class="">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. Nullam ornare lacus et enim laoreet, et lacinia ante bibendum. Morbi nec posuere mi. Aenean aliquet magna et auctor ornare. Aliquam congue ex at varius vestibulum. Maecenas eleifend dui vitae pulvinar bibendum. Duis faucibus elementum lobortis. Morbi feugiat, lectus id suscipit ullamcorper, purus purus consectetur nunc, sed cursus ex enim eget elit. Nunc porttitor nulla quam, sit amet tempor ligula convallis non. Nulla dictum sollicitudin leo, sollicitudin congue tortor fermentum at.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <p class="title"><i class="fas fa-laptop-code"></i> Content</p>
+                            <p class="subtitle">Content</p>
+                            <p class="">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. Nullam ornare lacus et enim laoreet, et lacinia ante bibendum. Morbi nec posuere mi. Aenean aliquet magna et auctor ornare. Aliquam congue ex at varius vestibulum. Maecenas eleifend dui vitae pulvinar bibendum. Duis faucibus elementum lobortis. Morbi feugiat, lectus id suscipit ullamcorper, purus purus consectetur nunc, sed cursus ex enim eget elit. Nunc porttitor nulla quam, sit amet tempor ligula convallis non. Nulla dictum sollicitudin leo, sollicitudin congue tortor fermentum at.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="hero">
-        <div class="hero-body">
-            <div class="container is-fullheight">
-                <div class="columns">
-                    <div class="column">
-                        <div class="box">
-                            <p class="title has-text-info"><i class="fas fa-laptop-code"></i> Content</p>
-                            <p class="subtitle has-text-info">Content</p>
-                            <p class="">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. Nullam ornare lacus et enim laoreet, et lacinia ante bibendum. Morbi nec posuere mi. Aenean aliquet magna et auctor ornare. Aliquam congue ex at varius vestibulum. Maecenas eleifend dui vitae pulvinar bibendum. Duis faucibus elementum lobortis. Morbi feugiat, lectus id suscipit ullamcorper, purus purus consectetur nunc, sed cursus ex enim eget elit. Nunc porttitor nulla quam, sit amet tempor ligula convallis non. Nulla dictum sollicitudin leo, sollicitudin congue tortor fermentum at.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="box">
-                            <p class="title has-text-info"><i class="fas fa-laptop-code"></i> Content</p>
-                            <p class="subtitle has-text-info">Content</p>
-                            <p class="">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. Nullam ornare lacus et enim laoreet, et lacinia ante bibendum. Morbi nec posuere mi. Aenean aliquet magna et auctor ornare. Aliquam congue ex at varius vestibulum. Maecenas eleifend dui vitae pulvinar bibendum. Duis faucibus elementum lobortis. Morbi feugiat, lectus id suscipit ullamcorper, purus purus consectetur nunc, sed cursus ex enim eget elit. Nunc porttitor nulla quam, sit amet tempor ligula convallis non. Nulla dictum sollicitudin leo, sollicitudin congue tortor fermentum at.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="box">
-                            <p class="title has-text-info"><i class="fas fa-laptop-code"></i> Content</p>
-                            <p class="subtitle has-text-info">Content</p>
-                            <p class="">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae libero vel ante imperdiet convallis in eu diam. Nam purus felis, euismod non accumsan ac, hendrerit at nisi. Nulla elit arcu, tincidunt nec arcu mattis, congue gravida ex. Nullam ornare lacus et enim laoreet, et lacinia ante bibendum. Morbi nec posuere mi. Aenean aliquet magna et auctor ornare. Aliquam congue ex at varius vestibulum. Maecenas eleifend dui vitae pulvinar bibendum. Duis faucibus elementum lobortis. Morbi feugiat, lectus id suscipit ullamcorper, purus purus consectetur nunc, sed cursus ex enim eget elit. Nunc porttitor nulla quam, sit amet tempor ligula convallis non. Nulla dictum sollicitudin leo, sollicitudin congue tortor fermentum at.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <div class="hero-title">
+            <div class="container has-text-centered">
+                <p class="title header-font">
+                    Our Partners
+                </p>
             </div>
+        </div>
+        <div class="hero-body">
+            
             
         </div>
     

@@ -34,12 +34,13 @@ $family-secondary: 'Montserrat', sans-serif;
     &:not(:last-child)
         border-right: 1px solid #E6ECF8;
 
+.has-text-weight-black
+    font-weight: 900 !important;
 
 @import "../../node_modules/bulma/bulma.sass";
 
-// .has-font-header
-//     font-family: 'Montserrat', sans-serif;
-//     font-weight: 800;
+.has-font-header
+    background-color: white !important;
 .title
     @extend .title
     font-family: $family-secondary;
@@ -72,4 +73,14 @@ $family-secondary: 'Montserrat', sans-serif;
 .blur-bg
     background-size: cover;
     background-position: center;
-    // filter: blur(8px);
+
+.bg-image
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    filter: blur(8px);
+    background-size: cover;

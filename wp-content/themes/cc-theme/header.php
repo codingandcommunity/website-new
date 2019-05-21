@@ -12,8 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php wp_head(); ?>
   </head>
-  <body <?php body_class(); ?>>
-    <nav class="navbar">
+  <body class="has-navbar-fixed-top" <?php body_class(); ?>>
+    <nav class="navbar is-fixed-top">
       <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item" href="<?php echo site_url(); ?>">

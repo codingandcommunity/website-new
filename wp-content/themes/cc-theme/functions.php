@@ -320,7 +320,6 @@ function my_customize_register($wp_customize)
 		'transport'   => 'refresh',
 	));
 
-
 	$wp_customize->add_control(
 		new WP_Customize_Image_Control(
 			$wp_customize,
@@ -342,27 +341,72 @@ function my_customize_register($wp_customize)
 		)
 	);
 
-	// Create custom panel.
+	$wp_customize->add_setting('sponsor_one', array(
+		'default'     => '#FFF',
+		'transport'   => 'refresh',
+	));
+
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'sponsor_one',
+			array(
+				'label'      => __('Sponsor 1', 'theme_name'),
+				'section'    => 'cd_image',
+			)
+		)
+	);
+
+	$wp_customize->add_setting('sponsor_two', array(
+		'default'     => '#FFF',
+		'transport'   => 'refresh',
+	));
+
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'sponsor_two',
+			array(
+				'label'      => __('Sponsor 2', 'theme_name'),
+				'section'    => 'cd_image',
+			)
+		)
+	);
+
+	$wp_customize->add_setting('sponsor_three', array(
+		'default'     => '#FFF',
+		'transport'   => 'refresh',
+	));
+
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'sponsor_three',
+			array(
+				'label'      => __('Sponsor 3', 'theme_name'),
+				'section'    => 'cd_image',
+			)
+		)
+	);
+
 	$wp_customize->add_panel('text_blocks', array(
 		'priority'       => 500,
 		'theme_supports' => '',
 		'title'          => __('Text Blocks', 'cc'),
 		'description'    => __('Set editable text for certain content.', 'cc'),
 	));
-	// Add Footer Text
-	// Add section.
+
 	$wp_customize->add_section('custom_title_text', array(
 		'title'    => __('Change Title Text', 'cc'),
 		'panel'    => 'text_blocks',
 		'priority' => 10
 	));
 
-	// Add setting
 	$wp_customize->add_setting('title_text_block', array(
 		'default'           => __('default text', 'cc'),
 		'sanitize_callback' => 'sanitize_text'
 	));
-	// Add control
+
 	$wp_customize->add_control(
 		new WP_Customize_Control(
 			$wp_customize,
@@ -381,12 +425,12 @@ function my_customize_register($wp_customize)
 		'panel'    => 'text_blocks',
 		'priority' => 10
 	));
-	// Add setting
+
 	$wp_customize->add_setting('subtitle_text_block', array(
 		'default'           => __('default text', 'cc'),
 		'sanitize_callback' => 'sanitize_text'
 	));
-	// Add control
+
 	$wp_customize->add_control(
 		new WP_Customize_Control(
 			$wp_customize,
@@ -405,12 +449,12 @@ function my_customize_register($wp_customize)
 		'panel'    => 'text_blocks',
 		'priority' => 10
 	));
-	// Add setting
+
 	$wp_customize->add_setting('mission_text_block', array(
 		'default'           => __('default text', 'cc'),
 		'sanitize_callback' => 'sanitize_text'
 	));
-	// Add control
+
 	$wp_customize->add_control(
 		new WP_Customize_Control(
 			$wp_customize,
@@ -429,12 +473,12 @@ function my_customize_register($wp_customize)
 		'panel'    => 'text_blocks',
 		'priority' => 10
 	));
-	// Add setting
+
 	$wp_customize->add_setting('mission_body_block', array(
 		'default'           => __('default text', 'cc'),
 		'sanitize_callback' => 'sanitize_text'
 	));
-	// Add control
+
 	$wp_customize->add_control(
 		new WP_Customize_Control(
 			$wp_customize,
@@ -447,6 +491,7 @@ function my_customize_register($wp_customize)
 			)
 		)
 	);
+
 	// Sanitize text
 	function sanitize_text($text)
 	{

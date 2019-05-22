@@ -79,7 +79,25 @@
             </div>
         </div>
         <div class="hero-body">
-            
+            <div class="container">
+                <div class="columns is-centered">
+                    <?php if (get_theme_mod('sponsor_one', '') != '') : ?>
+                        <div class="column is-3">
+                            <img src="<?php echo get_theme_mod('sponsor_one') ?>" />
+                        </div>
+                    <?php endif ?>
+                    <?php if (get_theme_mod('sponsor_two', '') != '') : ?>
+                        <div class="column is-3">
+                            <img src="<?php echo get_theme_mod('sponsor_two') ?>" />
+                        </div>
+                    <?php endif ?>
+                    <?php if (get_theme_mod('sponsor_three', '') != '') : ?>
+                        <div class="column is-3">
+                            <img src="<?php echo get_theme_mod('sponsor_three') ?>" />
+                        </div>
+                    <?php endif ?>
+                </div>
+            </div>
             
         </div>
     

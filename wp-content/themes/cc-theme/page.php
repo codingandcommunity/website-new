@@ -7,6 +7,7 @@
 
 get_header();
 ?>
+<div class="main">
 <section class="section">
   <div class="container">
     <div class="columns">
@@ -26,5 +27,4 @@ get_header();
         endif;
         ?>
       </div>
-      <?php get_sidebar(); ?>
       <?php get_footer(); ?>

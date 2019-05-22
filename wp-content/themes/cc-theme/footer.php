@@ -12,10 +12,11 @@
       <div class="container">
         <div class="content has-text-centered">
           <p>&copy; <?php echo get_bloginfo( 'name' ); ?> <?php echo date( 'Y' ); ?><?php echo __( '. All rights reserved.' ); ?></p>
-
+          
         </div>
       </div>
     </footer>
     <?php wp_footer(); ?>
+  </div>
   </body>
 </html>

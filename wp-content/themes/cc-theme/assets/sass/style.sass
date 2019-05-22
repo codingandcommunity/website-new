@@ -86,3 +86,24 @@ $family-secondary: 'Montserrat', sans-serif;
 .box
     @extend .box
     border-radius: 1px;
+
+body
+    @extend body
+    min-height: 100vh;
+
+.main
+    min-height: calc( 100vh - 80px );
+    display: flex;
+    flex-direction: column;
+
+.section
+    @extend .section;
+    flex: 1;
+
+html
+    @extend html
+    min-height: 100vh;
+
+.footer
+    max-height: 100px;
+    bottom: 0;
